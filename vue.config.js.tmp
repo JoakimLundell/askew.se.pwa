@@ -1,0 +1,6 @@
+module.exports = {
+    pwa: {
+        name: "Askew App",
+        themeColor: "#FF7F50"
+    }
+}
