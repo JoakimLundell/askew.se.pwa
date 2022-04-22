@@ -1,0 +1,9 @@
+Update Vue CLI
+npm update -g @vue/cli
+
+Install
+vue create askew.se.pwa
+cd askew.se.pwa
+
+Run
+npm run serve

@@ -8,10 +8,98 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0d1e32">
     <meta name="msapplication-TileColor" content="#5eb1d8">
     <meta name="theme-color" content="#5eb1d8">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    <style>
+      /* 12 24 36 48 */
+      :root {
+        --header: 48px;
+        --white: #ffffff;
+        --lightgreen: #42b983;
+        --green: greenyellow;
+        --red: #8c0000;
+        --accent-color: #6F3747;
+        --accent-hover: #572b37;
+        --padding: 12px;
+        --width: 12px;
+        --background: rgb(7,45,60);
+        --z-top: 1000;
+
+      }
+
+      @media only screen and (min-width: 800px) {
+          :root {
+            --width: 8vw;
+          } 
+      }
+
+      html, body {
+        margin: 0;
+        background-color: var(--background);
+        box-sizing: border-box;
+        font-family: 'Roboto';
+        font-size: 12px;
+        color: var(--white);
+      }
+
+      p { color: var(--white)}
+
+      a { text-decoration: none;}
+      a:hover { color: var(--accent-color)}
+      input, button {
+        padding: 9px 16px 9px 16px;
+        font-size: 16px;
+        border: none;
+        outline: none;
+      }
+
+      label {padding-bottom: 2px;}
+
+      button { cursor: pointer; display: flex; align-items: center;}
+
+      button.invisible {
+          background:transparent;
+          padding: 2px 6px; 
+          color: white; 
+          font-size: 1rem
+      }
+
+      .green {
+        background: var(--green);
+        color: black
+      }
+      .green:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+      }
+
+      .red {
+        background: var(--red);
+        color: white
+      }
+
+      h1 {
+        color: white;
+      }
+      h2 {
+        color: #add3da;
+      }
+      h3 {
+        color: #62848a;
+      }
+        
+      p {
+        color: var(--white);
+        line-height: 1.2rem;
+      }
+    </style>
+
   </head>
   <body>
     <noscript>
@@ -19,5 +107,6 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
   </body>
 </html>
