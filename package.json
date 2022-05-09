@@ -1,5 +1,5 @@
 {
-  "name": "askew.se.temp",
+  "name": "askew.se",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^8.10.0",
+    "luxon": "^2.3.2",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",

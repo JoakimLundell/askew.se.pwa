@@ -36,6 +36,7 @@
               
               :shoes="userTrainers"></askew-login-form>
     </askew-content>
+    <askew-flash :flash="flash" @close="closeFlash"></askew-flash>
 </template>
 <script setup>
     import AppHeader from '@/components/AppHeader.vue'
@@ -47,6 +48,7 @@
     import AskewLoginIcon from './components/AskewLoginIcon.vue'
     import AskewLoginForm from './components/AskewLoginForm.vue'
     import AskewGreyout from './components/AskewGreyout.vue'
+    import AskewFlash from './components/AskewFlash.vue'
 
     import { computed, onMounted } from 'vue'
     import { useStore } from 'vuex'
@@ -61,6 +63,8 @@
     const userName = computed(()=> store.getters['user/name'])
     const userTrainers = computed(()=> store.getters['user/trainers'])
     const userLoading = computed(()=> store.getters['user/loading'])
+    const flash = computed(() => store.getters['flash/flash']);
+
 
     const geolocationLoading = computed(()=> store.getters['geolocation/loading'])
     
@@ -91,6 +95,10 @@
         store.dispatch('user/changeTrainers', name); 
     }
 
+    function closeFlash (id) {
+        store.commit('flash/REMOVE_FLASH' , id)
+    }
+
     function loading () {
         return (userLoading.value || geolocationLoading.value)
     }
@@ -99,7 +107,12 @@
     onMounted(() => {
         store.dispatch('user/init')
         store.dispatch('positions/init')
+        
+        
         store.dispatch('venues/init')
+        store.dispatch('chatt/init')
+
+        //store.dispatch('flash/send', 'Hejsan')
     }) 
     
     

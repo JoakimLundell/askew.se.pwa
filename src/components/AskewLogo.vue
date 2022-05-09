@@ -1,7 +1,7 @@
 <template>
     
     <div class="logo" :class="{'open': props.open}" @click="clos_">
-        <img class="monkey" alt="askew logo" src="./../assets/img/monkey_white.svg" />
+        <img class="monkey" alt="askew logo" src="./../assets/img/monkey_white.svg" @click="close"/>
         <router-link to="/" class="link hem">Hem</router-link>
         <router-link to="/map" class="link karta">Karta</router-link>
         <router-link to="/chatt" class="link chatt">Chatt</router-link>
@@ -63,7 +63,8 @@ img {
     background: var(--accent-color);
     color: var(--white);
     transform: scale(.6) rotateY(-90deg);
-    padding: 0 2px;
+    padding: 1px 2px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,.5);
 }
 .link.hem {
     

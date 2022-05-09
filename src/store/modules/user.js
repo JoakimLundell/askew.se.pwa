@@ -44,6 +44,10 @@ export default {
             return (state.user) ? state.trainers : 'Default' 
         },
 
+        uid (state) {
+            return (state.user) ? state.user.uid : '123456789' 
+        },
+
     },
 
     mutations: {
@@ -100,10 +104,12 @@ export default {
             })
         },
 
-        logout({commit}) {
+        logout({commit, dispatch}) {
             auth.signOut()
                 .then( () => {
+                    
                     commit('CLOSE')
+                    dispatch('flash/send', 'Du loggades ut ', { root: true })
 
                 })
                 .catch( (error) => {

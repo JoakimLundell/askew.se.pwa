@@ -3,11 +3,14 @@
         <div class="controls">
             
             <div class="accordion" @click="showVenueInfo =!showVenueInfo">
-                <span v-if="venueActive">
-                    <span>Dagen samling: </span> 
-                    <span v-for="venue in venueActive" :key="venue.id">
+                <span v-if="venueActive.length > 0">
+                    <span>Dagens samling: </span>
+                    
+                        <span v-for="venue in venueActive" :key="venue.id">
                         {{venue.name}}
-                    </span>
+                        </span>
+
+                    
                 </span>
                 <span v-else>Samlingar </span>
                 <span class="arrow">
@@ -27,7 +30,7 @@
                    <p>Tid: {{venue.datetime}}</p>
                </div
                >
-               <div class="links">
+               <div class="links" :class="{'no-venue': venueActive.length == 0}" style="margin-left: 20px;">
                     <router-link class="link" to="/venue">Visa alla samlingar</router-link>
                     <router-link class="link" to="/venue">Lägg till samling</router-link>
                </div>
@@ -53,14 +56,23 @@
             </div>
      
             <div class="userLinks" :class="{'open': showUserLinks}"> 
-                <span 
+                <!--div style="width: 100%; color:white;">Grön ram = aktiv senaste timmen. Grå ram = inaktiv. Efter 2 dagar plockas man bort.</div-->   
+                <a 
+                    href=""
                     v-for="position in positions" 
                     :key="position.key"
-                    class="link"
+                    class="user"
                     :class="{'inactive' : !position.active}"
-                    @click="flyTo([position.latitude, position.longitude])">
+                    @click.prevent="flyTo([position.latitude, position.longitude])">
                     {{position.name}}
-                </span>
+                </a>
+                <a href="" class="frame"  @click.prevent="fitBounds()">Centrera över positioner</a>
+                <a href="" class="frame" v-for="venue in venueActive" :key="venue.key" @click.prevent="flyTo(venue.coords)" > Visa samling</a>
+
+                
+                <!--pre style="overflow: scroll">
+                    {{positions}}
+                </pre-->
                 
             </div>
             <!--div>{{config}}</div-->
@@ -72,6 +84,7 @@
                 ref="myMap"
                 :center="config.center" 
 			    :zoom="config.zoom"
+                :maxZoom="15"
                 @ready="mapReady"
                 style="border-top-left-radius: 12px;border-top-right-radius: 12px;"
                 >
@@ -118,6 +131,15 @@
         		fillColor='346d92'
 				@ready="circleReady" />
 
+                <!-- Custom controls -->
+                
+
+                <l-control
+                    :position="'bottomleft'"
+                    class="custom-control-watermark">
+                    Vue2Leaflet Watermark Control
+                </l-control>
+
             
             </l-map>
         </div>
@@ -153,9 +175,21 @@ const venueActive = computed(() => store.getters['venues/active'])
 
 function mapReady () {
     map = myMap.value.leafletObject
+}
+function circleReady () {
+    
 } 
 function flyTo (coords) {
     map.flyTo(coords, 17)
+}
+
+function fitBounds () {
+    if(positions.value.length > 0) {
+        const bounds = latLngBounds(positions.value.map(o => latLng(parseFloat(o.latitude), parseFloat(o.longitude))));
+        bounds._northEast.lat += 0.000000000001;
+        bounds._northEast.lng += 0.000000000001;
+        map.fitBounds(bounds, { padding: [50, 50] } )
+    }
 }
 
 function initGeolocation () {
@@ -174,9 +208,9 @@ onMounted(() => {
 
 function tunnelInUserLinks() {
     showUserLinks.value = true
-    setTimeout(() => {
+    /*setTimeout(() => {
         showUserLinks.value = false
-    }, 5000)
+    }, 5000)*/
 }
 </script>
 
@@ -222,7 +256,7 @@ function tunnelInUserLinks() {
     transition: all 1s ease;
 }
 
-.userLinks .link {
+.userLinks .user {
     cursor: pointer;
     color: var(--lightgreen); 
     padding: 4px 12px; 
@@ -232,20 +266,20 @@ function tunnelInUserLinks() {
     transition: all 1.5s ease;
 }
 
-.userLinks .link:hover,
-.userLinks .link:active {
+.userLinks .user:hover,
+.userLinks .user:active {
     color: var(--white); 
     border: 1px solid var(--white);
     transition: all .5s ease;
     
 }
 
-.userLinks .link.inactive {
+.userLinks .user.inactive {
     color: rgba(192, 192, 192, 0.7); 
     border: 1px solid rgba(192, 192, 192, 0.7);
     transition: all .5s ease;    
 }
-.userLinks .link.inactive:hover {
+.userLinks .user.inactive:hover {
     color: rgba(192, 192, 192, 1); 
     border: 1px solid rgba(192, 192, 192, 1);
     transition: all .5s ease;
@@ -281,6 +315,9 @@ div.links {
     display: flex;
     flex-direction: column;
 }
+div.links.no-venue {
+    flex-direction: row
+}
 a.link {
     display: inline-block;
     background: var(--accent-color);
@@ -296,4 +333,16 @@ a.link:nth-child(2) {
 a.link:hover {
     background: var(--accent-hover);
 }
+
+a.frame {
+    background: var(--accent-color);
+    cursor: pointer;
+    color: var(--white); 
+    padding: 4px 12px; 
+    margin: 0 8px 16px 8px;
+    border: 1px solid var(--accent-color);
+    border-radius: 2px;
+    transition: all 1.5s ease;
+}
+
 </style>

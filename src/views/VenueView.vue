@@ -3,16 +3,19 @@
         
         <h1>Samlingar</h1>
             
-        <div style="height:36px"></div>
+        <div style="height:12px"></div>
 
-        <h2 style="position: relative">Lägg till ny samling<span v-if="edit" style="position: absolute; left:4px;transform: rotate(-4deg); background: white; color: var(--accent-color); padding: 2px 12px">Ändra</span></h2>
+        <h2 style="position: relative">
+            Lägg till ny samling<span v-if="edit" style="position: absolute; left:4px;transform: rotate(-4deg); background: white; color: var(--accent-color); padding: 2px 12px">Ändra</span></h2>
 
         
         <div class="venue" id="venue">
-            <p>1. Skriv namn samlingen
-               2. Välj sedan datum och tid.
-               3. Klicka på kartan för att få koordinaterna
-            </p>
+            <ol style="color: white">
+                <li>Skriv namn på samlingen</li>
+               <li>Välj sedan datum och tid</li>
+                <li>Klicka på kartan för att få koordinaterna</li>
+            <li>Spara</li>
+            </ol>
             <div class="row">
                 <label for="name">Mötesplatsens namn</label>
                 <input type="text" name="name" v-model="venue.name" />
@@ -139,7 +142,7 @@ export default {
             //initVenue: 'initVenue',
             saveVenue: 'venues/save',
             removeVenue: 'removeVenue',
-            sendFlash: 'sendFlash'
+            sendFlash: 'flash/send'
         }),
 
         save() {
@@ -269,5 +272,10 @@ label {
         margin-right: var(--padding);
     }
             
+}
+
+ol li {
+    padding: 2px;
+    color: white;
 }
 </style>

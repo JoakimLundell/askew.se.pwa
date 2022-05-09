@@ -7,8 +7,8 @@
             
             <template v-if="auth">
                 
-                <h2>Användare: {{ name }}</h2>
-                <h3> Klicka för att byta pjucka</h3>
+                <h2 style="color: var(--background)">Användare: {{ name }}</h2>
+                <h3> Här kan du byta trainers</h3>
                 <div class="trainers">
                     <img 
                         v-for="trainer in trainers" 
@@ -19,8 +19,13 @@
                         @click="changeTrainers(trainer.name)"
                         class="item"/>
                 </div>
-                <h3>GPS position</h3>
+
+                <div class="spacing"></div>
+                
                 <askew-geolocation></askew-geolocation>
+                
+                <div class="spacing"></div>
+                
                 <button type="submit" @click="logout" class="red">Logout</button>
 
             </template>
@@ -128,15 +133,24 @@
     /*background: rgba(0,0,0,0.5);*/
      /*animation: 1s appear;*/
     z-index: var(--z-top); 
-
+    box-sizing: border-box;
+    
 }
 
+h2 { color: var(--background)}
+
 .box {
-    background: silver;
+    background: #3e445a;
+    background: snow;
+    
     /*transform: translateY(90)*/
     transform-origin: right;
     animation: 1s appear;
     box-shadow: -2px 4px 4px #08374ba6;
+    border-left: 6px solid var(--background);
+    border-right: 6px solid var(--background);
+    border-bottom: 6px solid var(--background);
+
 }
 .box,
 .box form {
@@ -148,18 +162,19 @@
     padding: var(--padding);
     
 }
-.box > h2, .box > label {color: white}
+.box > h2, .box > label {color: var(--background)}
 
 .box input{
+    border: 1px solid var(--background);
     margin-bottom: 20px;
 }
 .box button {
     margin-top: 20px;
 }
-.box h2 {
+/*.box h2 {
     margin-bottom: 30px;
     margin-top: 0;
-} 
+} */
 
 /*.close {
     position: absolute;
@@ -187,14 +202,15 @@
 
 .trainers {
     padding: 6px;
-    background: rgba(191, 193, 194, 0.795);
+    background: rgba(127, 127, 127, 0.1);
 }
 .trainers > * {
     padding: 12px;
 }
 
 .trainers > *.active {
-    background: var(--white);
+    background: #aae0cb;
+    /*border: 1px solid var(--background)*/
 }
 
 @keyframes appear {
@@ -211,4 +227,7 @@
         }
         
     }
+div.spacing {
+    height: 24px;
+}
 </style>

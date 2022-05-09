@@ -108,7 +108,8 @@ export default {
                 // Get key for new a venue .
                 venue.key = database.ref().child('venues').push().key;
             }
-        
+
+           
             let data = {
                 key: venue.key,
                 name: venue.name,
@@ -118,12 +119,14 @@ export default {
                 timestamp: Date(),
 
             };
-
+    
             let updates = {};
             updates['/venues/' + venue.key] = data;
-            
-            database.ref().update(updates);
-            
+                
+            database.ref().update(updates).catch((error) => {
+                dispatch('flash/send', error, {root: true});
+            });
+           
         },
 
         

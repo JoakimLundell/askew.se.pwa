@@ -86,7 +86,8 @@ function confirm(bool) {
 }
 
 onMounted(() => {
-    store.dispatch('chatt/init')
+    // Move to App
+    //store.dispatch('chatt/init')
 })
 </script>
 
@@ -167,7 +168,8 @@ h1 {
 
 
 .message.current .text {
-    background: var(--accent-color)
+    background: rgb(68, 64, 80);
+    color: white;
 }
 
 .message.current { 

@@ -1,6 +1,6 @@
 <template>
     <div class="geolocation">
-        <h3>Geolocation</h3>
+        <h3>GPS / Geolocation</h3>
         <div class="row">
             <div class="information">
                 <p>Loading: {{ loading }}</p>
@@ -38,26 +38,34 @@
 
 <style scoped>
 .geolocation {
-    /*border: 1px solid var(--accent-color);*/
     width:  100%
 }
 
+p { color: var(--background)}
 .row {
     display: flex;
     justify-content: space-between;
-    background: #041b24;
+    background: rgba(127,127,127,0.1);
 }
 
 .information { padding: 0 5px}
 .buttons {
-    flex-grow: 1;
+    /*flex-grow: 1;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 .buttons > * {
-    margin: 5px 0;
+    margin: 5px;
     width: 120px;
+    text-align: center;
+    border: 1px solid var(--background);
+    justify-content: center;
+}
+
+.buttons > *:disabled {
+    border: 1px solid silver;
+    cursor: not-allowed;
 }
 </style>

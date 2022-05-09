@@ -1,7 +1,9 @@
 module.exports = {
     pwa: {
-        name: "Askew App Jocke",
-        themeColor: "#FF7F50",
+        name: "Askew App",
+        themeColor: "#072d3c",
+        msTileColor: "#072d3c",
+        display: 'standalone',
         iconPaths: {
             
                 faviconSVG: 'img/icons/favicon.svg',
@@ -11,6 +13,9 @@ module.exports = {
                 maskIcon: 'img/icons/safari-pinned-tab.svg',
                 msTileImage: 'img/icons/msapplication-icon-144x144.png'
               
+        },
+        manifestOptions: {
+            background_color: "#072d3c"
         }
     }
 }

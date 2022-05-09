@@ -56,11 +56,15 @@ export default {
 
         SET_COORDS (state, payload) {
             state.coords = payload
+        }, 
+
+        SET_ERROR (state, payload) {
+            state.error.push(payload)
         }
     },
 
     actions: {
-        start({commit, getters}) {
+        start({commit, dispatch, getters}) {
             
             commit('SET_LOADING', true)
             
@@ -80,11 +84,12 @@ export default {
                         commit('SET_COORDS', position.coords)
                         commit('SET_WATCHID', id)
                         // Save your position to db
-                        //dispatch('savePosition', position.coords)
+                        //console.log("Got new position")
+                        this.dispatch('positions/save', position.coords)
                     }, (error) => {
                         console.dir(error)
-                        //commit('SET_ERROR', error)
-                        //dispatch('sendFlash', "Geolocation Error: " + error.message)
+                        commit('SET_ERROR', error)
+                        dispatch('flash/sendh', "Geolocation Error: " + error.message, {root:true})
                         commit('SET_LOADING' , false)
                     }, options )
 

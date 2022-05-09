@@ -9,13 +9,19 @@ export default {
     }),
 
     getters: {
+        loading (state) {
+            return state.loading
+        },
+
         chatts (state) {
             return state.chatts
         },
 
-        loading (state) {
-            return state.loading
+        latest (state) {
+            return state.chatts[0];
         }
+
+        
     },
 
     mutations: {
