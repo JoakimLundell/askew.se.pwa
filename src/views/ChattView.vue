@@ -1,53 +1,69 @@
 <template>
-    <div class="chatt">
+    <div class="fullpage">
+    
+        <askew-text-sidebar></askew-text-sidebar>
         
-        <div class="header">
-            <h1>Välkommen, {{userName}}</h1>
-        </div>
+        <div class="chatt">
         
-        <div class="content">
+            <!--div class="header" style="color: blue">
+                <h1>Välkommen, {{userName}}</h1>
+            </div-->
+           
+            <div class="content">
+            
+                <div class="scroll">
+                    <div v-for="chatt in chatts" :key="chatt.key" class="message" :class="{'current': chatt.namn === userName }">
+                        <div class="author">
+                            <span class="name">{{chatt.namn}}</span> 
+                            <span class="date" style="font-size:9px">{{chatt.date}}</span>
+                        </div>
+                        
+                        <div class="text" @click="edit(chatt.key)">{{chatt.meddelande}}</div>
+                        
+                        <div class="buttons" :class="{'open':isOpen.includes(chatt.key)}">
+                            <!--button>Ändra</button-->
+                            <button @click="remove(chatt.key)" class="warning">Ta bort</button>
+                        </div>
+                        
+                    </div>
+                </div>
 
-        <div class="scroll">
-            <div v-for="chatt in chatts" :key="chatt.key" class="message" :class="{'current': chatt.namn === userName }">
-                <div class="author">
-                    <span class="name">{{chatt.namn}}</span> 
-                    <span style="font-size:8px">{{chatt.date}}</span>
-                </div>
-                
-                <div class="text" @click="edit(chatt.key)">{{chatt.meddelande}}</div>
-                
-                <div class="buttons" :class="{'open':isOpen.includes(chatt.key)}">
-                    <button>Ändra</button>
-                    <button @click="remove(chatt.key)">Ta bort</button>
-                </div>
-                
+
+            </div>
+
+            <div class="box">
+                <input v-model="message" type="text" placeholder="Skriv meddelande.." tabindex="1">
+                <button class="green" @click="send" :disabled="message == ''" tabindex="2">Skicka</button>
             </div>
         </div>
 
-
-    </div>
-        <div class="box">
-            <input v-model="message" type="text" placeholder="Skriv meddelande.." tabindex="1">
-            <button class="green" @click="send" :disabled="message == ''" tabindex="2">Skicka</button>
-        </div>
-    </div>
 
     <div class="overlay" :class="{'open': confirmDelete}">
-        <div class="box">
-            <div><button @click="confirmDelete = false">Close</button></div>
-            <div>
+        <div style="background: var(--background); border-radius: var(--border-radius-snall);display: flex; flex-direction: column;align-items: flex-end;">
+            <div style="padding: 6px;">
+                <button @click="confirmDelete = false" class="invisible">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#ffffff" class="blue"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>            
+                </button>
+            </div>
+            <div style="padding: 0 24px 24px 24px;display: flex;align-items: center;flex-direction: column;">
+                
                 <h2>Ska vi radera den?</h2>
-                    <button @click="confirm(true)">Ja</button>
-                    <button @click="confirm(false)">Nej</button>
+                
+                <div class="buttons open">
+                    <button @click="confirm(true)" class="green">Ja</button>
+                    <button @click="confirm(false)" class="red">Nej</button>
+                </div>
+                    
             </div>
         </div>
     </div>
-    
+</div>
 </template>
 
 <script setup>
 import { onMounted, ref } from '@vue/runtime-core'
 import AppWidth from '../components/AppWidth.vue'
+import AskewTextSidebar from '@/components/AskewTextSidebar.vue'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -97,19 +113,22 @@ onMounted(() => {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    width: 100%;
     background: transparent;
+    flex: 1;
+    padding: var(--padding) var(--padding) var(--padding) 0
 }
 .chatt .header {
-     padding: 0 var(--padding);
+    padding: 0 var(--padding);
 }
 .chatt .content {
     padding: var(--padding);
-    background: white;
+    background: var(--content-background);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    margin: 0 var(--padding);
     overflow: hidden;
     flex-grow: 1;
+    
 }
 
 .chatt .content .scroll {
@@ -130,10 +149,14 @@ h1 {
     padding: 35px 20px;
     background: var(--background);
     box-shadow: 2px -2px 10px var(--background);
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom: 0;
 }
 .chatt .box input {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-radius: var(--border-radius-small);
+    margin-right: 12px
 }
 
 .chatt .box button {
@@ -144,22 +167,19 @@ h1 {
 .message {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
-    padding: 10px;
-    /*-webkit-transition: all 1s linear;
-    -moz-transition: all 1s linear;
-    -o-transition: all 1s linear;
-    transition: all 1s linear;*/
+    align-items: flex-start;
+    padding: var(--padding);
 }
 
 .message .author {
     padding: 2px;
-    color: silver;
+    color: var(--darkblue);
 }
 
 .message .author span.name{
     padding: 0px 6px;
-    color: rgb(155, 149, 149);
+    font-weight: bold;
+    font-size: 1rem;
 }
 
 .message.current .author span.name{
@@ -168,7 +188,7 @@ h1 {
 
 
 .message.current .text {
-    background: rgb(68, 64, 80);
+    background: var(--darkblue);
     color: white;
 }
 
@@ -200,18 +220,14 @@ h1 {
     0% { opacity: 0; }
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 800px) {
 
-    .chatt .header {
-        margin: 0 auto;
+    /* pop out the type message box */
+    .chatt .box {
+        position: relative    
     }
-    .chatt .content {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    h1 {
-        width: 600px;
-    }
+    
+    
 }
 
 /* Overlay */

@@ -41,7 +41,7 @@ export default
     position: fixed;
     left: 0;
     right: 0;
-    top: var(--header);
+    top: 0;
     z-index: 1000;
     background: transparent;
 }
@@ -50,9 +50,8 @@ export default
     color: var(--white);
     animation: appear 1s;
     overflow: hidden;
-    
-    /*box-shadow: 2px 2px 6px black;*/
-    margin: 5px 0;
+    box-shadow: 2px 2px 6px black;
+    margin: 0 0 6px 0;
 }
 .flash-line {
     display: flex;
@@ -60,7 +59,7 @@ export default
     align-items: center;
     background: transparent;
     color: white;
-    padding: 6px 6px 3px 6px;
+    padding: 12px 12px 6px 12px;
 }
 
 .flash-timeout {
@@ -94,9 +93,7 @@ export default
 
 @media only screen and (min-width: 600px) {
 	.flash-messages {
-        left: 8vw;
-        right: 8vw;
-        top: var(--header);
+        
     }
     .flash-message {
         width: 100%;

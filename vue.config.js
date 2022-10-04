@@ -1,8 +1,10 @@
 module.exports = {
     pwa: {
         name: "Askew App",
-        themeColor: "#072d3c",
-        msTileColor: "#072d3c",
+        themeColor: "#363636",
+        msTileColor: "#363636",
+        appleMobileWebAppCapable: 'yes',
+        appleMobileWebAppStatusBarStyle: '#363636',
         display: 'standalone',
         iconPaths: {
             
@@ -15,7 +17,7 @@ module.exports = {
               
         },
         manifestOptions: {
-            background_color: "#072d3c"
+            background_color: "red"
         }
     }
 }

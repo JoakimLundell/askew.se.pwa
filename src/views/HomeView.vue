@@ -1,6 +1,150 @@
 <template>
-  <div class="home">
-    <div style="height: 10vw"></div>
+    <div class="fullpage">
+
+        <askew-text-sidebar></askew-text-sidebar>
+
+            <div class="right-content links" style="">
+                
+                <router-link to="/login" class="link">
+                    <span class="number">001.</span>
+                    <span v-if="!userContent" class="uppercase">Login</span>
+                    <span v-else class="username">{{userName}}</span>
+                    <span class="information"> 
+                        Du är <span v-if="!userContent" class="warning">inte</span> inloggad.<br />
+                        Du visar <span v-if="!watchid" style="text-decoration: underlin_" class="warning">inte</span> din position.
+                    </span>
+                </router-link>
+
+                
+
+                <router-link to="/map" class="link">
+                    <span class="number">002.</span>
+                    <span class="name uppercase">Kartan</span>
+                    <span class="information">Online:  
+                        <span v-if="!onlineUsers">Ingen</span>
+                        <span v-for="user in onlineUsers" :key="user" style="text-transform: capitalize; padding-right: 10px;">{{user}}</span>
+                    </span>
+                </router-link>
+
+                <router-link to="/chatt" class="link">
+                    <span class="number">002.</span>
+                    <span class="uppercase">
+                        Chatt
+                    </span>
+                    <span class="information" v-if="chattLatest">
+                        Senaste meddelande: {{chattLatest.date}} av {{chattLatest.namn}}
+                    </span>
+                    <!--span class="information" v-if="chattLatest" style="background: red;">
+                        <p style="text-overflow: ellipsis; max-width: 100%;white-space: nowrap;overflow: hidden;color: inherit;">
+                            Senaste meddelande: {{chattLatest.date}} av {{chattLatest.namn}}
+                        </p>
+                    </span-->
+                </router-link>
+
+                <askew-login-form 
+                        :open="userOpen"
+                        @close="closeUser"
+                        @logout="logoutUser" 
+                        @login="loginUser"
+                        @changeTrainers="changeTrainers" 
+                        :auth="userContent" 
+                        :form="userForm"
+                        :name="userName"
+                        
+                        :shoes="userTrainers"></askew-login-form>
+            </div>
+        
+        <!--router-link to="/" style="color:aliceblue; font-size: 12vw;" class="uppercase">Askew</router-link>
+
+        <router-link to="/map">
+            <div class="uppercase linkbox">
+                <span class="number">001.</span>
+                <span class="name">Kartan</span>
+                <span class="information">
+                    <div>Online:</div> 
+                    <div v-if="!onlineUsers">Ingen</div>
+                    
+                    <div v-for="user in onlineUsers" :key="user" style="text-transform: capitalize; padding-right: 10px;">
+                        {{user}}
+                    </div>
+                </span>
+            </div>
+        </router-link>
+
+        <router-link to="/chatt">
+            <div class="uppercase linkbox">
+                <span class="number">002.</span>Chatt
+            </div>
+            <div v-if="chattLatest" class="small">
+                 <span style="text-overflow: ellipsis;max-width: 100%;white-space: nowrap;overflow: hidden;color: inherit;">
+                    Senaste meddelande: {{chattLatest.date}} av {{chattLatest.namn}}</span>
+            </div>
+        </router-link>
+        
+        <a href="" @click.prevent="toggle">
+            <div class="uppercase">
+                <span class="number">003.</span>
+                <span v-if="!userContent">Login</span>
+                <span v-else style="text-transform:capitalize">{{userName}}</span>
+            </div>
+            <div class="small">
+                <div>Du är <span v-if="!userContent" class="warning">INTE</span> inloggad</div>
+                <div>Du visar <span v-if="!watchid">INTE</span> din position</div>
+            </div>
+        </a-->
+
+        <!--askew-line>
+            <span style="font-size: 12vw;font-weight: bold;color: var(--white);">ASKEW</span>
+            <askew-logo :open="true"></askew-logo> 
+            
+        </askew-line>
+
+        <router-link to="map">
+            <askew-line>
+                <div class="link-number">001.</div>
+                <div class="link-name">Kartan </div>
+                <div class="link-info" style="border-left: 1px dotted black;padding-left: 10px;">
+                    <div>Antal personer online</div>
+                    <div>Jocke och några till.</div>
+                </div>
+            </askew-line>
+        </router-link>
+
+        <askew-line>
+                <span style="opacity: .5;">002. </span> 
+             
+                <span>Kartan</span>
+             
+                <span v-if="onlineUsers.length > 0" style="font-size: 10px; color: black;">
+                    
+                    <span>Just nu är {{onlineUsers.length}} inloggade </span>
+                    <div>
+                        <span v-for="user in onlineUsers" :key="user" style="padding-right: 10px;">
+                            {{user}}
+                        </span>
+                                    
+                        </div>
+                </span>
+        </askew-line>
+
+        <askew-line>
+            
+            <router-link to="chatt" class="main"> 003. CHATT  </router-link> 
+
+            <template v-if="chattLatest">
+                <p style="text-overflow: ellipsis;max-width: 100%;white-space: nowrap;overflow: hidden;color: inherit;">
+                    Senaste meddelande: {{chattLatest.date}} {{chattLatest.namn}}</p>
+            </template>
+    
+            <template v-else>
+                <p>Hoppsan, hittar inget chatt meddelande..</p>
+            </template>
+            
+        </askew-line>
+    
+    <askew-line>004. Om dig  </askew-line-->
+
+    <!--div style="height: 10vw"></div>
     <h1>WE ARE</h1>
 
     <div class="tunnel">
@@ -20,7 +164,7 @@
         <div class="item">WE ARE</div> 
         
         <h1 class="askew">ASKEW</h1>       
-    </div>
+    </div-->
     <!--img alt="welcome" src="../assets/img/welcome.jpg" />
 <img alt="askew logo" src="../assets/img/monkey_white.svg" /-->
     
@@ -82,7 +226,12 @@
              d="m 6059.5,4303.96 c 115.8,-66.11 398.98,-141.05 262.88,-318.93 41.59,-62.12 62.76,-186.08 116.82,-188.46 47.84,-2.12 91.32,192.79 219.05,101.48 10.06,-58.3 -13.98,-82.76 -14.59,-130.48 93.4,-101.93 188.07,-6.83 292.07,-28.99 35.37,8.37 32.47,54.74 43.81,86.98 25.51,-13.34 32.22,-45.33 29.2,-86.98 41.28,-11.98 37.83,20.43 73.01,14.49 3.81,-44.54 31.7,-65.2 43.82,-101.48 41.37,12.11 17.36,89.08 43.82,115.98 160.24,-116.81 -40.59,-356.76 -116.84,-463.91 -60.85,61.26 -133.03,-26.65 -189.84,-14.49 -6.36,53.79 -16.98,84.02 -29.21,159.46 -30.55,-13.16 -44.52,-42.78 -43.81,-86.98 -40.95,84.99 -103.28,148.76 -175.26,202.95 -63.07,-9.85 8.01,-152.9 -87.61,-130.47 -11.27,-69.17 22.85,-93.3 14.61,-159.46 -100.96,15.76 -145.48,87.53 -204.46,144.96 42.05,64.58 52.37,160.66 43.81,275.45 -87.05,-10.22 -104.07,-89.97 -175.24,-115.97 -102.08,71.87 -224.64,55.98 -335.88,57.99 36.15,157.4 246.59,141.8 306.68,275.44 -7.59,35.96 -35.61,51.64 -58.41,72.49 5.02,38.5 38.33,48.93 73.01,57.99 -2.98,45.36 9.84,106.43 -14.6,130.48 -123.08,30.36 -77.16,-107.04 -189.86,-86.99 -51.62,94.52 43.73,156.19 73.02,217.45" /></g></g></g></g></svg-->
 
     <!--img alt="Vue logo" src="../assets/logo.png"-->
-    <HelloWorld msg="Välkommen" :users="onlineUsers" :venue="venueActive" :chatt="chattLatest" />
+    
+    
+    
+    <!--HelloWorld msg="Välkommen" :users="onlineUsers" :venue="venueActive" :chatt="chattLatest" /-->
+   
+   
    <!--p style="color: pink">
      {{chattLatest}}
    </p-->
@@ -94,6 +243,12 @@
 import HelloWorld from '@/components/HelloWorld.vue'
 import { onMounted, computed } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import AskewLine from '../components/AskewLine.vue'
+import AskewLogo from '../components/AskewLogo.vue'
+import AskewLoginForm from '../components/AskewLoginForm.vue'
+import AskewTextSidebar from '../components/AskewTextSidebar.vue'
+
+//import {defineEmits} from 'vue'
 
 let animation = null
 const store = useStore();
@@ -101,21 +256,53 @@ const store = useStore();
 const onlineUsers = computed(() => store.getters['positions/users'])
 const venueActive = computed(() => store.getters['venues/active'])
 const chattLatest = computed(() => store.getters['chatt/latest'])
+// User
+const userContent = computed(()=> store.getters['user/content'])
+const userLoading = computed(()=> store.getters['user/loading'])
+const userName = computed(()=> store.getters['user/name'])
+const userOpen = computed(() => store.getters['user/open'])
+
+// Geolocation
+const watchid = computed(() => store.getters['geolocation/watchid'])
+
+//const emit = defineEmits(['toggle'])
+
+// For login
+const userForm = computed(()=> store.getters['user/form'])
+    const userTrainers = computed(()=> store.getters['user/trainers'])
+    
+
+function toggle () {
+    store.commit('user/OPEN') 
+}
+
+function closeUser () {
+        store.commit('user/CLOSE'); 
+}
+
+function logoutUser () {
+    store.dispatch('user/logout'); 
+}
+
+function loginUser () {
+    store.dispatch('user/signIn'); 
+}
+
+function changeTrainers (name) {
+    store.dispatch('user/changeTrainers', name); 
+}
 
 onMounted(() => {
     
-    let t1 = gsap.timeline();
+    let tl = gsap.timeline();
     
-    t1.set(".askew", {autoAlpha: 0})
-    .to(".item", {opacity: 1, scale: 5, stagger: {   
-        each:0.6,
-        repeat: 1, 
-        yoyo: true,
-        ease:"steppedEase"
-        }
-    }, 1)
-    .to(".askew", {autoAlpha: 1, scale: 4, ease:"power1.out"})
-    .to(".askew", {autoAlpha: 1, scale: 3.8, ease:"power1.out"});
+    /*t1.to(".link", {
+        y: 0, 
+        stagger: 0.1
+      
+    }, 1)*/
+
+    tl.fromTo(".link", {scale: 0.9, x:50}, {duration: .2, scale: 1, x: 0,stagger: 0.2}, .1);
 })
 
 /*function getLocation() {
@@ -129,14 +316,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.home {
+.links {
+    flex:1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: var(--padding)
+    padding: var(--padding) var(--padding) var(--padding) 0
 }
-
 .tunnel {
     position: relative;
     background: transparent;
@@ -156,4 +341,101 @@ onMounted(() => {
 .askew { opacity: 0; text-align: center;}
 
 svg { fill: red}
+
+
+.link-number {
+    opacity: .5;
+    margin-right: 10px;
+}
+
+.link-name {
+margin-right: 10px;
+}
+
+.link-info {
+    font-size: 20%;
+}
+
+a {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border-top: 12px solid var(--background);
+    font-size: 3em;
+    color: #252f38;
+    background: transparent;
+    transition: all .5s ease;
+    padding: var(--padding) calc( 3* var(--padding)) 
+}
+
+@media only screen and (min-width: 600px) {
+    a {
+        padding: var(--padding) 8vw;
+        font-size: 7vw
+    }    
+}
+
+
+a:hover {
+    background: #8ed5f3;
+    transition: all .5s ease;
+}
+
+a:first-child {
+    border-top: none;
+}
+
+
+
+
+
+
+.linkbox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: bottom;
+}    
+
+.links > *:first-child {
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    z-index: 200;
+}
+
+.links > *:nth-child(3),
+.links > *:last-child {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.link {
+    background: var(--content-background)
+}
+
+.number,
+.information {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    margin: 0;
+    padding: var(--padding) 0 var(--padding) 2px;
+    letter-spacing: 0px;
+    color: #252f38;
+}
+
+.number {
+    letter-spacing: 1px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 5vw;
+}
+
+.username {
+    text-transform: capitalize; 
+    font-weight: bold;
+    line-height: 5vw;
+}
 </style>

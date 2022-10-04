@@ -1,0 +1,80 @@
+/* text styling */
+h1 {
+    color: white;
+}
+
+h2 {
+    color: white;
+    font-weight: bold;
+}
+
+h3 {
+    color: var(--background);
+  }
+    
+  p {
+    color: var(--white);
+    line-height: 1.2rem;
+  }
+span.warning {
+    background-color: var(--darkred);
+    color: var(--white);
+    padding: 0 3px;
+    border-radius: 3px;
+}
+
+/* buttons */
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.buttons > * {
+    margin: 0 10px 10px 0
+}
+
+.buttons > *:last-child {
+    margin: 0 0 10px 0
+}
+
+
+/* flex */
+.fullpage {
+    display: flex; 
+    height: 100%; 
+    width: 100%;
+}
+
+.right-content {
+    flex: 1
+}
+
+
+
+/* Effects appear */
+
+.appear {
+ animation: appear 1s ease-in;
+}
+
+@keyframes appear {
+    0% { opacity: 0;}
+}
+
+/* No select */ 
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+/* Space */
+div.spacing {
+    height: 12px;
+}

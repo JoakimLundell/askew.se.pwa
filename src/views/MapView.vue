@@ -1,8 +1,16 @@
 <template>
     <div class="map">
+
         <div class="controls">
+
+            <div class="control-buttons" >
+
+                <askew-back></askew-back>
             
-            <div class="accordion" @click="showVenueInfo =!showVenueInfo">
+                <button v-for="venue in venueActive" :key="venue.key" @click="flyTo(venue.coords)" class="blue">Dagens samling! {{venue.name}}</button>
+ 
+            </div>
+            <!--div class="accordion" @click="showVenueInfo =!showVenueInfo" >
                 <span v-if="venueActive.length > 0">
                     <span>Dagens samling: </span>
                     
@@ -15,15 +23,15 @@
                 <span v-else>Samlingar </span>
                 <span class="arrow">
 
-                    <span v-if="showVenueInfo">Dölj</span>
-                    <span v-else>Visa</span>
+                    <span v-if="showVenueInfo">Minimera</span>
+                    <span v-else>Visa mer</span>
                     
                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="#ffffff" :class="{'open' : showVenueInfo}"><path d="M10 12.812 5 7.812 6.229 6.583 10 10.354 13.771 6.583 15 7.812Z"/></svg>
 
                 </span>    
-            </div>
+            </div-->
 
-            <div class="venueInfo" :class="{'open': showVenueInfo}">
+            <!--div class="venueInfo" :class="{'open': showVenueInfo}">
                <div v-for="venue in venueActive" :key="venue.key" @click="flyTo(venue.coords)">
                    <p>Namn:  {{venue.name}}</p>
                    <p>Plats: {{venue.coords}}</p>
@@ -35,7 +43,7 @@
                     <router-link class="link" to="/venue">Lägg till samling</router-link>
                </div>
                 
-            </div>
+            </div-->
             
 
             <hr />
@@ -43,8 +51,8 @@
             <div class="accordion" @click="showUserLinks = !showUserLinks">
                 <span>Personer online ({{positions.length}}):</span>
                 <span class="arrow"> 
-                    <span v-if="showUserLinks">Dölj</span>
-                    <span v-else>Visa</span>
+                    <span v-if="showUserLinks">Minimera</span>
+                    <span v-else>Visa mer</span>
                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="#ffffff" :class="{'open':showUserLinks}"><path d="M10 12.812 5 7.812 6.229 6.583 10 10.354 13.771 6.583 15 7.812Z"/></svg>
                 </span>       
                 
@@ -66,27 +74,33 @@
                     @click.prevent="flyTo([position.latitude, position.longitude])">
                     {{position.name}}
                 </a>
-                <a href="" class="frame"  @click.prevent="fitBounds()">Centrera över positioner</a>
-                <a href="" class="frame" v-for="venue in venueActive" :key="venue.key" @click.prevent="flyTo(venue.coords)" > Visa samling</a>
+                <!--a href="" class="frame"  @click.prevent="fitBounds()">Centrera över positioner</a>
+                <a href="" class="frame" v-for="venue in venueActive" :key="venue.key" @click.prevent="flyTo(venue.coords)" > Visa samling</a-->
 
                 
                 <!--pre style="overflow: scroll">
                     {{positions}}
                 </pre-->
                 
+                    <router-link class="button small blue" to="/venue" style="margin-right: 10px;">Visa alla samlingar</router-link>
+
+                    <router-link class="button small blue" to="/venue"> + Lägg till ny samling</router-link>  
+
+                
             </div>
             <!--div>{{config}}</div-->
 
             <!--div style="color: yellow">Positions: Loading: {{positionsLoading}} | Content: {{positions}}</div-->
         </div>
-        <div id="map" style="padding: 0 var(--width);">
+        <div id="map">
             <l-map
                 ref="myMap"
                 :center="config.center" 
 			    :zoom="config.zoom"
-                :maxZoom="15"
+                :maxZoom="19"
                 @ready="mapReady"
-                style="border-top-left-radius: 12px;border-top-right-radius: 12px;"
+                style="border-radius: var(--border-radius)"
+                :options="{ zoomControl: false}"
                 >
                 <l-control-layers
 			    position="topright"
@@ -129,7 +143,19 @@
 				:fill="true"
         		:fillOpacity="0.5"
         		fillColor='346d92'
-				@ready="circleReady" />
+				@ready="circleReady">
+
+            </l-circle>
+            <l-marker 
+                v-for="cv in venueActive"
+                :key="cv.key"
+                :lat-lng="[cv.coords.lat, cv.coords.lng]">
+
+                
+                <l-tooltip :options="{ permanent: true, interactive: true }">{{cv.datetime}} {{cv.name}} </l-tooltip>
+            </l-marker>
+
+
 
                 <!-- Custom controls -->
                 
@@ -140,8 +166,15 @@
                     Vue2Leaflet Watermark Control
                 </l-control>
 
+                <l-control-zoom position="bottomright"></l-control-zoom>
             
             </l-map>
+            <div style="position: absolute; top: 12px; left: 12px; right: 100px; z-index: 400; display: flex; flex-wrap: wrap;">
+
+                <a href="" class="button small blue shadow" style="margin-right: 12px;" @click.prevent="fitBounds()">Centrera över positioner</a>
+                <a href="" class="button small blue shadow" v-for="venue in venueActive" :key="venue.key" @click.prevent="flyTo(venue.coords)" > Visa samling</a>
+
+            </div>
         </div>
     </div>
 </template>
@@ -154,7 +187,7 @@ import { latLngBounds, latLng } from "leaflet/dist/leaflet-src.esm";
 
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
-
+import AskewBack from '../components/AskewBack.vue'
 const { onMounted }=require("@vue/runtime-core");
 
 const store = useStore();
@@ -175,6 +208,7 @@ const venueActive = computed(() => store.getters['venues/active'])
 
 function mapReady () {
     map = myMap.value.leafletObject
+    fitBounds();
 }
 function circleReady () {
     
@@ -194,7 +228,7 @@ function fitBounds () {
 
 function initGeolocation () {
     // Init Geolocation
-    store.dispatch('geolocation/start')
+    //store.dispatch('geolocation/start')
     // Init positions move to App
 
 }
@@ -204,10 +238,12 @@ function initGeolocation () {
 onMounted(() => {
     initGeolocation()
     tunnelInUserLinks()
+
+    
 })
 
 function tunnelInUserLinks() {
-    showUserLinks.value = true
+    showUserLinks.value = false
     /*setTimeout(() => {
         showUserLinks.value = false
     }, 5000)*/
@@ -216,19 +252,20 @@ function tunnelInUserLinks() {
 
 <style scoped>
 .map {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
+    padding: var(--padding)
 }
 .controls {
-    padding: 0 var(--width)
+    /*padding: 0 var(--width)*/
 }
 
 #map {
     flex: 1; 
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
     background: transparent;
+    position: relative;
 }
 
 .userLinks {
@@ -256,13 +293,29 @@ function tunnelInUserLinks() {
     transition: all 1s ease;
 }
 
+.userLinks > * {
+    padding: 6px 12px; 
+    margin: 0 6px 10px 6px;
+    
+}
+
+.userLinks > a.button {
+    background: transparent;
+    color: snow;
+    border: 1px solid snow;
+}
+
+.userLinks > a.button:hover {
+    background: transparent;
+    color: var(--focus-color);
+    border: 1px solid var(--focus-color);
+}
+
 .userLinks .user {
     cursor: pointer;
     color: var(--lightgreen); 
-    padding: 4px 12px; 
-    margin: 0 8px 16px 8px;
     border: 1px solid var(--lightgreen);
-    border-radius: 2px;
+    border-radius: 6px;
     transition: all 1.5s ease;
 }
 
@@ -343,6 +396,17 @@ a.frame {
     border: 1px solid var(--accent-color);
     border-radius: 2px;
     transition: all 1.5s ease;
+}
+
+
+.control-buttons {
+    display: flex;
+    justify-content: space-between; 
+    flex-wrap: wrap;
+}
+
+.control-buttons > * {
+    margin-bottom: 6px;
 }
 
 </style>

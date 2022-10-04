@@ -12,14 +12,15 @@ export default {
 
 <style scoped>
     div.width {
-        padding: 0 var(--padding);
+        margin: 0 auto;
+        max-width: 1200px;
         
     }
 
-    @media only screen and (min-width: 600px) {
-        div.width {
-            padding: 0 8vw;
+    /*@media only screen and (min-width: 600px) {
+        div.width > * {
+            max-width: 800px;
         }
         
-      }
+    } */
 </style>

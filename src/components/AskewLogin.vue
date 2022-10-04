@@ -1,12 +1,16 @@
 <template>
     
-    <div class="login" @click="clickOutsid_" :class="{'open': props.open}">
+    <div class="login">
+        
         <div class="box" v-focus>
+            
             
             <template v-if="auth">
                 
-                <!--h2 style="color: var(--background)">Användare: {{ name }}</h2-->
-                <h3 class="white"> Här kan du byta trainers</h3>
+                <h2 class="appear">Välkommen {{ name }}</h2>
+               
+               
+                <h3>Här kan du byta trainers</h3>
                 <div class="trainers">
                     <img 
                         v-for="trainer in trainers" 
@@ -18,14 +22,21 @@
                         class="item"/>
                 </div>
 
-                
+                <div class="spacing"></div>
+               
                 <askew-geolocation></askew-geolocation>
                 
                 <div class="spacing"></div>
                
                 <div class="buttons">
+                    
                     <button type="submit" @click="logout" class="red">Logout</button>
-                <button type="submit" @click="logout" class="blue">Clode window</button>
+
+                    <router-link to="/" class="button small">
+                        <!--svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg-->
+                        Tillbaka
+                    </router-link>
+
 
                 </div>
                 
@@ -58,6 +69,7 @@
     import { onMounted, ref } from '@vue/runtime-core'  
     const props = defineProps(['auth', 'form', 'name', 'shoes', 'open'])
     const emit = defineEmits(['close', 'logout', 'login', 'changeTrainers'])
+    
 
     /* Move this to App and send as props from vuex? */
     const trainers = ref([])
@@ -116,45 +128,34 @@
         emit('changeTrainers', name)
     }
 
-    
+    function back() {
+        //this.$router.push('/')
+    }
 
 </script>
 
 <style scoped>
+
+    
 .login {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    background: #45606b;
-     /*animation: 1s appear;*/
     box-sizing: border-box;
-    z-index: 100;
-    height: 67%;
-    
-    opacity: 0;
-    transform: translateY(-400px);
-    transition: all 1s ease;
-    display: none
-    
+    background: var(--content-background);
+    width: 100%;
+    height: 100%;
+    padding-top: 2vh;
+    color: var(--background)
 }
 
-.login.open {
-    opacity: 1;
-    transform: translateY(0px);
-    transition: all 1s ease;
-    display: flex;
-}
-
-h2 { color: var(--background)}
 
 .box {
    background: transparent; 
-   
+   /*border: 1px solid var(--background);*/
+   /*padding: var(--padding);*/
+    margin: 10px;
 }
 .box,
 .box form {
@@ -162,32 +163,35 @@ h2 { color: var(--background)}
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    /*background: var(--background);*/
-    padding: var(--padding);
-    
+    background: transparent; 
 }
-.box > h2, .box > label {color: var(--background)}
+
+.box > h2, 
+.box > h3, 
+.box > label {color: var(--background)}
 
 .box input{
     border: 1px solid var(--background);
     margin-bottom: 20px;
 }
-.box button {
+.box button,
+.box a.button {
     margin-top: 20px;
 }
 
 
 .trainers {
     padding: 0px;
-    background: transparent
+    background: rgba(36,36,36,0.1)
 }
 .trainers > * {
     padding: 10px;
 }
 
 .trainers > *.active {
-    background: var(--content-background);
-    /*border: 1px solid var(--background)*/
+    
+    border: 2px solid #252f38;
+    background: var(--content-background)
 }
 
 @keyframes appear {
@@ -198,9 +202,8 @@ h2 { color: var(--background)}
 }
 
 @media only screen and (min-width: 600px) {
-        .box,
-        .box form {
-            padding: 30px 8vw 30px 30px;
+        .box {
+            padding: 30px 30px 30px 30px;
         }
         
     }

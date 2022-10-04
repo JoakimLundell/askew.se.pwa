@@ -9,28 +9,50 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0d1e32">
-    <meta name="msapplication-TileColor" content="#5eb1d8">
-    <meta name="theme-color" content="#5eb1d8">
+    <meta name="msapplication-TileColor" content="#363636">
+    <meta name="theme-color" content="#363636">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#363636" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Condensed&display=swap" rel="stylesheet"> 
 
     <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/common.css">
     <style>
       /* 12 24 36 48 */
       :root {
-        --header: 48px;
+        --header: calc(100vw * .15);
+        --header-thin: 20px;
+        --header-background: #363636;
         --white: #ffffff;
+        --black: #121212;
         --lightgreen: #42b983;
-        --green: greenyellow;
-        --red: #8c0000;
+        --green: #5E8C61;
+        --green: #318861;
+        --red: #C81D25;
+        --darkred: #C81D25;
+        
         --accent-color: #6F3747;
         --accent-hover: #572b37;
         --padding: 12px;
         --width: 12px;
         --background: #072d3c;
+        --background: #7cb9d4;
+        --background: #363636;
         --z-top: 1000;
+        --blue: #072d3c;
 
+        --lilac: #9A879D;
+        --content-background: #7cb9d4;
+        --link-background-hover: #8ed5f3;
+
+        --border-radius: 20px;
+        --border-radius-small: 6px;
+        --focus-color: #8ed5f3;
+
+        --darkblue: #252f38;
+        
       }
 
       @media only screen and (min-width: 800px) {
@@ -39,20 +61,25 @@
           } 
       }
 
+      
       html, body {
         margin: 0;
         background-color: var(--background);
         box-sizing: border-box;
         font-family: 'Roboto';
-        font-size: 12px;
+        font-size: 1rem;
         color: var(--white);
       }
 
       p { color: var(--white)}
 
       a { text-decoration: none;}
+
       a:hover { color: var(--accent-color)}
-      input, button {
+
+      a.button { padding: 0; margin: 0}
+      
+      input, button, a.button {
         padding: 9px 16px 9px 16px;
         font-size: 16px;
         border: none;
@@ -61,44 +88,94 @@
 
       label {padding-bottom: 2px;}
 
-      button { cursor: pointer; display: flex; align-items: center;}
+      button,
+      a.button { 
+        cursor: pointer; 
+        display: flex; 
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        min-width: 120px;
+        background: var(--background);
+        color: var(--white) 
+      }
 
       button.invisible {
-          background:transparent;
+          background: transparent;
           padding: 2px 6px; 
           color: white; 
-          font-size: 1rem
+          font-size: 1rem;
+          border-color: transparent;
+          min-width: auto;
       }
 
       .green {
         background: var(--green);
-        color: black
+        color: var(--white);
+        transition: all .5s ease;
+        
       }
-      .green:disabled {
+      button:disabled {
+        /*color: var(--black);*/
         opacity: .5;
         cursor: not-allowed;
+        transition: all .5s ease;
       }
 
-      .red {
+      button.warning,
+      button.red,
+      .button.warning,
+      .button.red {
         background: var(--red);
         color: white
       }
 
-      h1 {
-        color: white;
+      button.blue,
+      .button.blue {
+        background: var(--content-background);
+        color: var(--darkblue);
       }
-      h2 {
-        color: white;
-        font-weight: bold;
+
+      a.button.small {
+        max-width: auto;
+        padding: 6px
       }
-      h3 {
-        color: silver;
+
+      a.button.shadow {
+        box-shadow: 3px 3px 3px rgba(36,36,36,0.3);
       }
+      
+
+      a.main {
+        transition: all 2s ease;
         
-      p {
-        color: var(--white);
-        line-height: 1.2rem;
       }
+
+      a.main:hover {
+        transition: all 2s ease;
+        transform: scale(1.2);
+      }
+
+      
+
+        /*.logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        } */
+
+        .logo-width {
+            width: 18vw;
+            background: transparent;    
+        }
+
+        @media only screen and (min-width: 800px) {
+            .logo-width {
+                max-width: 500px;;
+            }
+        }
     </style>
 
   </head>

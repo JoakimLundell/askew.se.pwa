@@ -1,3 +1,4 @@
+import router from '@/router/index.js'
 import {auth, database} from '../../plugins/firebase.js'
 
 export default {
@@ -110,6 +111,7 @@ export default {
                     
                     commit('CLOSE')
                     dispatch('flash/send', 'Du loggades ut ', { root: true })
+                    router.push('/')
 
                 })
                 .catch( (error) => {

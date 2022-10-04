@@ -1,10 +1,19 @@
 <template>
-    <askew-header>
+    <app-width>
+    <!--askew-header :class="{'thin' : !$route.matched.some(({ name }) => name === 'home')}">
+        
+        <askew-back v-if="!$route.matched.some(({ name }) => name === 'home')"></askew-back>
+        
+        <div class="logo-width logo">
+            <askew-logo :open="menuOpen" @close="clickBurger"></askew-logo>
+        </div>
+        
+        <askew-page-title v-if="currentRouteName != 'home'">
+            {{ currentRouteName }}
+        </askew-page-title>
+        
+        <div v-if="loading">Loading..</div>
         <askew-burger @clickBurger="clickBurger" :open="menuOpen">Menu</askew-burger>
-        <askew-logo :open="menuOpen" @close="clickBurger"></askew-logo>
-<!--
-{{userLoading}} {{geolocationLoading}}
--->
         <askew-login-icon 
           @toggle="toggleUserMenu" 
           :auth="userIsLoggedin" 
@@ -13,19 +22,21 @@
           :open="userOpen">
         </askew-login-icon>
         
-    </askew-header>
+    </askew-header-->
+  
     <askew-content>
             <!--AppHeader>Logo</AppHeader-->
             <!--nav>
                 <router-link to="/">Home</router-link> |
                 <router-link to="/about">About</router-link>
             </nav-->
-            <router-view/>
+            <router-view />
             <!--askew-main-menu :open="menuOpe_" @close="clickBurger"></askew-main-menu-->
-            <askew-greyout :open="menuOpen" @close="clickBurger"></askew-greyout>
             
-            <askew-login-form 
-              v-if="userOpen" 
+            <!--askew-greyout :open="menuOpen" @close="clickBurger"></askew-greyout-->
+            
+            <!--askew-login-form 
+              v-if="uersOpen" 
               @close="closeUser"
               @logout="logoutUser" 
               @login="loginUser"
@@ -34,24 +45,31 @@
               :form="userForm"
               :name="userName"
               
-              :shoes="userTrainers"></askew-login-form>
+              :shoes="userTrainers"></askew-login-form-->
     </askew-content>
+
     <askew-flash :flash="flash" @close="closeFlash"></askew-flash>
+</app-width>
 </template>
+
 <script setup>
-    import AppHeader from '@/components/AppHeader.vue'
+    //import AppHeader from '@/components/remove/AppHeader.vue'
     import AskewHeader from './components/AskewHeader.vue'
     import AskewLogo from './components/AskewLogo.vue'
     import AskewContent from './components/AskewContent.vue'
     import AskewMainMenu from './components/AskewMainMenu.vue'
     import AskewBurger from './components/AskewBurger.vue'
     import AskewLoginIcon from './components/AskewLoginIcon.vue'
-    import AskewLoginForm from './components/AskewLoginForm.vue'
+    //import AskewLoginForm from './components/AskewLoginForm.vue'
     import AskewGreyout from './components/AskewGreyout.vue'
     import AskewFlash from './components/AskewFlash.vue'
-
+    import AskewBack from './components/AskewBack.vue'
+    import AskewPageTitle from './components/AskewPageTitle.vue'
+    import AppWidth from './components/AppWidth.vue'
+    
     import { computed, onMounted } from 'vue'
     import { useStore } from 'vuex'
+    import {useRoute} from 'vue-router'
     
 
     const store = useStore();
@@ -67,7 +85,7 @@
 
 
     const geolocationLoading = computed(()=> store.getters['geolocation/loading'])
-    
+    const currentRouteName = computed(() => useRoute().name)    
 
     function clickBurger() {
         (menuOpen.value) ? store.commit('menu/CLOSE_MENU') : store.commit('menu/OPEN_MENU')
@@ -77,22 +95,6 @@
     function toggleUserMenu() {
         userOpen.value ? store.commit('user/CLOSE') : store.commit('user/OPEN') 
         store.commit('menu/CLOSE_MENU')
-    }
-
-    function closeUser () {
-        store.commit('user/CLOSE'); 
-    }
-
-    function logoutUser () {
-        store.dispatch('user/logout'); 
-    }
-
-    function loginUser () {
-        store.dispatch('user/signIn'); 
-    }
-
-    function changeTrainers (name) {
-        store.dispatch('user/changeTrainers', name); 
     }
 
     function closeFlash (id) {
@@ -112,6 +114,8 @@
         store.dispatch('venues/init')
         store.dispatch('chatt/init')
 
+        store.dispatch('geolocation/start')
+
         //store.dispatch('flash/send', 'Hejsan')
     }) 
     
@@ -123,24 +127,12 @@
 html, body {
     margin: 0;
 }
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: left;
-  color: #2c3e50;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: left;
+    color: #2c3e50;
 }
-
-/*nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}*/
 </style>
